@@ -2,6 +2,7 @@ package mpdev.aoc2021.day2
 
 import java.io.File
 import java.lang.System.err
+import java.util.regex.Pattern
 import kotlin.system.exitProcess
 
 const val AOC = "AoC 2021"
@@ -78,7 +79,7 @@ fun enum2str(c: Cmd): String {
 
 /** encode command */
 fun encodeCmd(cmdString: String): CmdObj {
-    val tokens = cmdString.split(" ")
+    val tokens = cmdString.trim().split(Pattern.compile(" +"))
     val cmdObj = CmdObj()
     if (tokens.size >= 2) {
         cmdObj.cmd = str2enum(tokens[0])
@@ -94,7 +95,7 @@ fun getInput(args: Array<String>): MutableList<CmdObj> {
     val dataPoints = mutableListOf<CmdObj>()
     var filename = ""
     for (i in args.indices) {
-        if (args[0].startsWith("-"))
+        if (args[i].startsWith("-"))
             continue
         filename = args[i]
         break
@@ -111,34 +112,19 @@ fun getInput(args: Array<String>): MutableList<CmdObj> {
 }
 
 /** process commands part 1 */
-fun processCommandsPart1(cmdList: List<CmdObj>): Result {
-    val result = Result()
+fun processCommands(cmdList: List<CmdObj>,
+                    depth: (Result, Int) -> Unit,
+                    forward: (Result, Int) -> Unit): Result {
+    val myResult = Result()
     cmdList.forEach {
         when (it.cmd) {
-            Cmd.fwd -> result.totalFwd += it.arg
-            Cmd.down -> result.totalDepth += it.arg
-            Cmd.up -> result.totalDepth -= it.arg
+            Cmd.fwd -> forward(myResult, it.arg)
+            Cmd.down -> depth(myResult, it.arg)
+            Cmd.up -> depth(myResult, -it.arg)
             else -> {}
         }
     }
-    return result
-}
-
-/** process commands part 2 */
-fun processCommandsPart2(cmdList: List<CmdObj>): Result {
-    val result = Result()
-    cmdList.forEach {
-        when (it.cmd) {
-            Cmd.fwd -> {
-                result.totalFwd += it.arg
-                result.totalDepth += (result.aim * it.arg)
-            }
-            Cmd.down -> result.aim += it.arg
-            Cmd.up -> result.aim -= it.arg
-            else -> {}
-        }
-    }
-    return result
+    return myResult
 }
 
 /** produce answer */
@@ -152,9 +138,9 @@ fun main(args: Array<String>) {
 
     commandData = getInput(args)
     if (part1_2 == 1)
-        result = processCommandsPart1(commandData)
+        result = processCommands(commandData, { r, n -> r.totalDepth += n }, { r, n -> r.totalFwd += n } )
     else
-        result = processCommandsPart2(commandData)
+        result = processCommands(commandData, { r, n -> r.aim += n }, { r, n -> r.totalFwd += n; r.totalDepth += r.aim*n })
     product = produceAnswer(result)
 
     println("Product (total fwd) * (total depth): $product")
