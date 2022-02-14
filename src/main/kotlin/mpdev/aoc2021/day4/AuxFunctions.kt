@@ -1,9 +1,7 @@
 package mpdev.aoc2021.day4
 
 import java.io.File
-import java.math.BigInteger
 import java.util.regex.Pattern
-import kotlin.contracts.contract
 import kotlin.system.exitProcess
 
 const val AOC = "AoC 2021"
@@ -111,7 +109,7 @@ fun getFilename2(args: Array<String>): String {
 /** get bingo numbers from input */
 fun getInputNumbers(args: Array<String>): List<Int> {
     val fileName = getFilename2(args)
-    var input = ""
+    val input: String
     val numList = mutableListOf<Int>()
     try {
         input = File(fileName).readText()
