@@ -46,7 +46,7 @@ fun getInput(args: Array<String>): MutableList<String> {
     var filename = ""
     val inputData = mutableListOf<String>()
     for (i in args.indices) {
-        if (args[0].startsWith("-"))
+        if (args[i].startsWith("-"))
             continue
         filename = args[i]
         break

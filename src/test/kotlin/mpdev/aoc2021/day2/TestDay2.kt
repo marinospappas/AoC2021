@@ -23,7 +23,7 @@ class TestDay2 {
     @Order(2)
     fun `Test Process Commands Part 1`() {
         commandData = getInput(arrayOf("src/test/resources/day2/input.txt"))
-        result = processCommandsPart1(commandData)
+        result = processCommands(commandData, { r, n -> r.totalDepth += n }, { r, n -> r.totalFwd += n } )
         assertEquals(15, result.totalFwd)
         assertEquals(10, result.totalDepth)
     }
@@ -32,7 +32,7 @@ class TestDay2 {
     @Order(3)
     fun `Test Answer Part 1`() {
         commandData = getInput(arrayOf("src/test/resources/day2/input.txt"))
-        result = processCommandsPart1(commandData)
+        result = processCommands(commandData, { r, n -> r.totalDepth += n }, { r, n -> r.totalFwd += n } )
         product = produceAnswer(result)
         assertEquals(150, product)
     }
@@ -41,7 +41,7 @@ class TestDay2 {
     @Order(4)
     fun `Test Process Commands Part 2`() {
         commandData = getInput(arrayOf("src/test/resources/day2/input.txt"))
-        result = processCommandsPart2(commandData)
+        result = processCommands(commandData, { r, n -> r.aim += n }, { r, n -> r.totalFwd += n; r.totalDepth += r.aim*n })
         assertEquals(15, result.totalFwd)
         assertEquals(60, result.totalDepth)
     }
@@ -50,7 +50,7 @@ class TestDay2 {
     @Order(5)
     fun `Test Answer Part 2`() {
         commandData = getInput(arrayOf("src/test/resources/day2/input.txt"))
-        result = processCommandsPart2(commandData)
+        result = processCommands(commandData, { r, n -> r.aim += n }, { r, n -> r.totalFwd += n; r.totalDepth += r.aim*n })
         product = produceAnswer(result)
         assertEquals(900, product)
     }

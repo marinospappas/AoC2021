@@ -63,7 +63,7 @@ fun getInput(args: Array<String>): MutableList<DataObj> {
     val dataPoints = mutableListOf<DataObj>()
     var filename = ""
     for (i in args.indices) {
-        if (args[0].startsWith("-"))
+        if (args[i].startsWith("-"))
             continue
         filename = args[i]
         break
