@@ -6,11 +6,9 @@ import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Nested
-@DisplayName("Day 4 Test")
+@DisplayName("Day 5 Test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class TestDay5 {
-
-    val s = arrayOf("src/test/resources/day4/boards.txt")
 
     @Test
     @Order(1)
@@ -29,6 +27,7 @@ class TestDay5 {
         canvas = Canvas()
         processInput(input, canvas, false)
         println(canvas)
+        println("canvas size: ${canvas.xSize} x ${canvas.ySize}")
         result = calculateResult(canvas)
         assertEquals(5, result)
     }
@@ -51,6 +50,7 @@ class TestDay5 {
         processInput(input, canvas, true)
         println(canvas)
         result = calculateResult(canvas)
+        println("canvas size: ${canvas.xSize} x ${canvas.ySize}")
         assertEquals(12, result)
     }
 

@@ -1,7 +1,6 @@
 package mpdev.aoc2021.day5
 
 import java.lang.StrictMath.*
-import kotlin.math.sign
 
 class Point (var x: Int, var y: Int) {
 

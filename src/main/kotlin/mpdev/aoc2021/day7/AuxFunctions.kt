@@ -1,15 +1,17 @@
-package mpdev.aoc2021.day5
+package mpdev.aoc2021.day7
 
 import java.io.File
+import java.util.Collections.max
+import java.util.Collections.min
 import kotlin.system.exitProcess
 
 const val AOC = "AoC 2021"
 const val AUTHOR = "Marinos Pappas"
-const val DATE = "13.02.21"
-const val DAY = "Day5"
-const val PUZZLE = "Hydrothermal Venture"
-const val RESULT_STRING = "Number of points where 2 or more lines overlap"
-      const val USAGE = "usage: Main -part1|-part2 Input_File"
+const val DATE = "14.02.21"
+const val DAY = "Day7"
+const val PUZZLE = "The Treachery of ****"
+val RESULT_STRING = "Minimum cost"
+const val USAGE = "usage: Main -part1|-part2 Input_File"
 
 /** exit program */
 fun exit(msg: String) {
@@ -34,39 +36,42 @@ fun getPart1or2(args: Array<String>): Int {
     return 0
 }
 
-/** process one line */
-fun decodeInputLine(s: String): List<Point> {
-    val points = s.trim().split(" -> ")
-    val pointsList = mutableListOf<Point>()
-    if (points.size < 2)
-        abort("invalid input line [s]")
-    pointsList.add(Point(points[0]))
-    pointsList.add(Point(points[1]))
-    return pointsList
-}
-
 /** get bingo filename from args */
 fun getFilename1(args: Array<String>): String {
     for (i in args.indices) {
         if (args[0].startsWith("-"))
             continue
         val filename = args[i]
-        println("input file: ${filename}")
+        println("input file: $filename")
         return filename
     }
     return abort(USAGE).toString()
 }
 
+/** input to string for testing */
+fun arrayToString(a: Array<Int>): String {
+    var s = ""
+    a.forEach { s += "$it," }
+    return s.substring(0,s.length-1)
+}
+
 /** get puzzle input */
-fun getInput(args: Array<String>): File? {
+fun getInput(args: Array<String>): Array<Int> {
     val filename = getFilename1(args)
+    var positionsList = arrayOf<Int>()
     try {
-        return File(filename)
+        val input = File(filename).readText()
+        val inpList = input.split(",")
+        positionsList = Array(inpList.size) {0}
+        for (i in inpList.indices)
+            positionsList[i] = inpList[i].toInt()
     }
     catch (e: Exception) {
         abort(e.toString())
     }
-    return null
+    basePosition = min(positionsList.asList())
+    maxPosition = max(positionsList.asList())
+    return positionsList
 }
 
 
