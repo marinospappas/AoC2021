@@ -36,7 +36,7 @@ fun getPart1or2(args: Array<String>): Int {
     return 0
 }
 
-/** get bingo filename from args */
+/** get input filename from args */
 fun getFilename1(args: Array<String>): String {
     for (i in args.indices) {
         if (args[0].startsWith("-"))
