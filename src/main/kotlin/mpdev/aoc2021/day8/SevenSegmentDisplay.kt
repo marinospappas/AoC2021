@@ -1,17 +1,17 @@
 package mpdev.aoc2021.day8
 
 /*
-Digit 	a 	b 	c 	d 	e 	f 	g 	abc defg 	hex
-0 	    on 	on 	on 	 	on 	on 	on	111 0111 	0x77
-1 	            on       	on	    001 0010 	0x12
-2 	    on 	    on	on 	on 		on 	101 1101 	0x5D
-3 	    on 	    on 	on 	    on	on 	101 1001 	0x5B
-4 	        on 	on	on   	on 	    011 1010 	0x3A
-5 	    on	on   	on 		on 	on 	110 1011 	0x6B
-6 	    on 	on 	    on 	on 	on 	on  110 1111 	0x6F
-7 	    on 	    on 	        on  	101 0010 	0x52
-8 	    on 	on 	on 	on 	on 	on 	on 	111 1111 	0x7F
-9 	    on 	on 	on 	on 		on 	on 	111 1011 	0x7B
+Digit   a   b   c   d   e   f   g   abc defg    hex
+0       on  on  on      on  on  on  111 0111    0x77
+1               on          on	    001 0010    0x12
+2       on      on  on  on      on  101 1101    0x5D
+3       on      on  on      on  on  101 1001    0x5B
+4           on  on  on      on 	    011 1010    0x3A
+5       on  on      on      on  on  110 1011    0x6B
+6       on  on      on  on  on  on  110 1111    0x6F
+7       on      on          on      101 0010    0x52
+8       on  on  on  on  on  on  on  111 1111    0x7F
+9       on  on  on  on      on  on  111 1011    0x7B
  */
 
 const val SEGMENTS_1 = "CF"
