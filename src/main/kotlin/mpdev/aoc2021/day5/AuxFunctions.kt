@@ -45,7 +45,7 @@ fun decodeInputLine(s: String): List<Point> {
     return pointsList
 }
 
-/** get bingo filename from args */
+/** get input filename from args */
 fun getFilename1(args: Array<String>): String {
     for (i in args.indices) {
         if (args[0].startsWith("-"))
