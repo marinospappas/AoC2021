@@ -12,7 +12,7 @@ class TestDay8 {
     @Test
     @Order(1)
     fun `Test Calculate 1-4-7-8 Total Part 1`() {
-        result = calulcateTotalPart1(arrayOf("src/test/resources/day8/input.txt")) { l -> l <= 4 || l == 7 }
+        result = calculateTotalPart1(arrayOf("src/test/resources/day8/input.txt")) { l -> l <= 4 || l == 7 }
         assertEquals(26, result)
     }
 

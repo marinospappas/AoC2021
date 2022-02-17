@@ -6,7 +6,7 @@ var part1_2 = 1
 var result = -1
 
 /** process each line of input and count entries requested */
-fun calulcateTotalPart1(args: Array<String>, criteria: (Int)->Boolean): Int {
+fun calculateTotalPart1(args: Array<String>, criteria: (Int)->Boolean): Int {
     var total = 0
     getInput(args).readLines().forEach {
         val measurements = processLine(it).measurements
@@ -39,7 +39,7 @@ fun main(args: Array<String>) {
     val t1 = System.currentTimeMillis()
 
     if (part1_2 == 1) {
-        result = calulcateTotalPart1(args) { l -> l <= 4 || l == 7 }
+        result = calculateTotalPart1(args) { l -> l <= 4 || l == 7 }
         println("$RESULT_STRING1: $result")
     }
     else {
