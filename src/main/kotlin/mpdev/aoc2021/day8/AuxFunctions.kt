@@ -50,7 +50,7 @@ fun getFilename1(args: Array<String>): String {
         println("input file: $filename")
         return filename
     }
-    return abort(mpdev.aoc2021.day7.USAGE).toString()
+    return abort(USAGE).toString()
 }
 
 /** sort the characters in a string */
