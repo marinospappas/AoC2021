@@ -30,7 +30,7 @@ class NodesMap(var map: MutableMap<String,Node> = mutableMapOf()) {
 }
 
 /** the network */
-class Network(var netMap: NodesMap = NodesMap()) {
+class Network(var netMap: NodesMap = NodesMap(), var detectLoop: Boolean = false) {
 
     override fun toString() = netMap.toString()
 
@@ -74,6 +74,18 @@ class Network(var netMap: NodesMap = NodesMap()) {
     private fun notAllowedAgain(id: String, nodesMap: NodesMap): Boolean =
         nodesMap[id]?.hasReachedMaxTimes()!!
 
+    /**
+     * check if we are going in a loop
+     * the actual implementation depends on the requirements (definition of "loop")
+     * this version checks if the path is A -> B -> A -> B
+     */
+    private fun weAreGoingInCircles(curPath: MutableList<String>, nextNode: String): Boolean {
+        return if (curPath.size < 3)
+            false
+        else
+            nextNode == curPath[curPath.size - 2] && curPath.last() == curPath[curPath.size-3]
+    }
+
     // functions to adjust the connections at start and end points
     private fun setNoNodePointsToStartNode(startNodeId: String) {
         netMap.map.values.forEach { node ->
@@ -94,9 +106,10 @@ class Network(var netMap: NodesMap = NodesMap()) {
             return
         }
         nodesMap[a]?.connectedNodes?.forEach {  connectedNode -> // try path for each connection from this node
-            if (notAllowedAgain(connectedNode, nodesMap)) {
+            if (notAllowedAgain(connectedNode, nodesMap))
                 return@forEach
-            }
+            if (detectLoop &&  weAreGoingInCircles(curPath, connectedNode))
+                return@forEach
             findAllPaths(connectedNode, b, copyOf(curPath), copyOf(nodesMap))
         }
     }

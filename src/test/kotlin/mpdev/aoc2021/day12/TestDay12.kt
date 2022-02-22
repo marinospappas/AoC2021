@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Nested
-@DisplayName("Day 11 Test")
+@DisplayName("Day 12 Test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class TestDay12 {
 
@@ -62,5 +62,16 @@ class TestDay12 {
         val myResult = calculateResultPart2(myMap)
         assertEquals(3509, myResult)
     }
+
+    @Test
+    @Order(10)
+    fun `Test Network Map-1`() {
+        val myMap = getInput(arrayOf("src/test/resources/day12/input-1.txt"), true)
+        println("Network Map:\n $myMap")
+        myMap.findPaths("start","end")
+        println("All paths: ${myMap.allPaths}")
+        assertEquals(6, myMap.allPaths.size)
+    }
+
 }
 

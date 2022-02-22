@@ -51,9 +51,9 @@ fun getFilename1(args: Array<String>): String {
 fun isMinorNode(id: String) = id[0].isLowerCase()
 
 /** get puzzle input */
-fun getInput(args: Array<String>): Network {
+fun getInput(args: Array<String>, loopCheck: Boolean = false): Network {
     val filename = getFilename1(args)
-    val myNet = Network()
+    val myNet = Network(detectLoop = loopCheck)
     File(filename).readLines().forEach {
         val nodeIds = it.split("-")
         if (nodeIds.size != 2)

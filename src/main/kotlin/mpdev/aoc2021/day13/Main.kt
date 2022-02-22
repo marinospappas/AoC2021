@@ -1,26 +1,30 @@
 package mpdev.aoc2021.day13
 
-lateinit var inputData: Network
+import mpdev.aoc2021.day01.totalDeeper
+
+var flipInstr = mutableListOf<String>()
+
 var part1_2 = 1
 var result = -1
 
-/** calculate part 1 */
-fun calculateResultPart1(myNetworkMap: Network): Int {
-    myNetworkMap.findPaths("start","end")
-    return myNetworkMap.allPaths.size
+/** perform a series of flips */
+fun performFlips(matrix: Matrix, count: Int): Int {
+    var myResultP1 = 0
+    for (i in flipInstr.indices) {
+        val s = flipInstr[i].split("=")
+        when (s[0]) {
+            "y" -> matrix.flipHor(s[1].toInt())
+            "x" -> matrix.flipVert(s[1].toInt())
+        }
+        if (i==0)
+            myResultP1 = matrix.countDots()
+    }
+    return myResultP1
 }
 
-/** calculate part */
-fun calculateResultPart2(myNetworkMap: Network): Int {
-    val listOfPaths: MutableList<List<String>> = mutableListOf()
-    val minorNodesMap = myNetworkMap.netMap.map.filter { it.value.minor && it.key != "start" && it.key != "end" }
-    minorNodesMap.forEach { (_, v) ->
-        myNetworkMap.resetAllMinorNodes()
-        v.maxTimesAllowed = 2
-        myNetworkMap.findPaths("start","end")
-        listOfPaths.addAll(myNetworkMap.allPaths)
-    }
-    return listOfPaths.distinct().size
+/** calculate part 1 */
+fun calculateResult(myMatrix: Matrix): Int {
+    return performFlips(myMatrix, 1)
 }
 
 /** main */
@@ -28,17 +32,19 @@ fun main(args: Array<String>) {
 
     part1_2 = getPart1or2(args)
     if (part1_2 == 0) abort(USAGE)
-    println("$AOC - $DAY, $PUZZLE, Part $part1_2 - $AUTHOR - $DATE")
+    println("$AOC - $DAY, $PUZZLE, Part 1+2 - $AUTHOR - $DATE")
 
-    inputData = getInput(args)
+    val inputData = getInput(args)
+    println("Initial Grid size: ${inputData.xSize} x ${inputData.ySize}")
+
     val t1 = System.currentTimeMillis()
 
-    if (part1_2 == 1)
-        result = calculateResultPart1(inputData)
-    else
-        result = calculateResultPart2(inputData)
-    println("$RESULT_STRING1 - part $part1_2: $result")
+    result = calculateResult(inputData)
+    println("$RESULT_STRING1 - part 1: $result")
+
+    println("Grid size: ${inputData.xSize} x ${inputData.ySize}")
+    println("Resulting Grid:\n${inputData.toStringEnh()}")
 
     val t2 = System.currentTimeMillis()
-    exit("$DAY Part $part1_2 - Completed in ${t2-t1} msec")
+    exit("$DAY Part 1+2 - Completed in ${t2-t1} msec")
 }
