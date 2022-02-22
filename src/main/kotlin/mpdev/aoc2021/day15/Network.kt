@@ -7,9 +7,8 @@ class Node(var name: String = "",
            var thisId: Int) {
 
     var lastUpdatedBy: Int = -1
-    var dijkCost: Int = Int.MAX_VALUE
 
-    override fun toString() = "$name cost $cost dijk cost $dijkCost last upd by $lastUpdatedBy"
+    override fun toString() = "$name cost $cost last upd by $lastUpdatedBy"
 
 }
 
@@ -67,7 +66,7 @@ class Network(var grid: MutableList<Node> = mutableListOf()) {
 
     /** run DijKstra algorithm */
     fun findMinCostforAllPaths(): Int {
-        return Dijkstra.runIt(grid, 0)     // return min cost
+        return Dijkstra.runIt(grid, 0, grid.size-1)     // return min cost
     }
 
     /** get the minimum cost path */
