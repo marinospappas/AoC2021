@@ -1,14 +1,14 @@
-package mpdev.aoc2021.day13
+package mpdev.aoc2021.day14
 
 import java.io.File
 import kotlin.system.exitProcess
 
 const val AOC = "AoC 2021"
 const val AUTHOR = "Marinos Pappas"
-const val DATE = "19.02.21"
-const val DAY = "Day13"
-const val PUZZLE = "Transparent Origami"
-val RESULT_STRING1 = "Total Number of Dots"
+const val DATE = "20.02.21"
+const val DAY = "Day14"
+const val PUZZLE = "Extended Polymerization"
+val RESULT_STRING1 = "Result"
 val RESULT_STRING2 = ""
 const val USAGE = "usage: MainKt -part1|-part2 Input_File"
 
@@ -48,27 +48,19 @@ fun getFilename1(args: Array<String>): String {
 }
 
 /** get puzzle input */
-fun getInput(args: Array<String>): Matrix {
+fun getInput(args: Array<String>): Polymer {
     val filename = getFilename1(args)
-    val xList = mutableListOf<Int>()
-    val yList = mutableListOf<Int>()
+    val myMap = mutableMapOf<String,String>()
+    var linecount = 0
     File(filename).readLines().forEach {
-        var str = it.split(",")
-        if (str.size == 2) {
-            xList.add(str[0].toInt())
-            yList.add(str[1].toInt())
+        if (++linecount == 1) {
+            template = it
             return@forEach
         }
-        str = it.split(" ")
-        if (str[0] == "fold" && str[1] == "along") {
-            flipInstr.add(str[2])
+        if (it == "")
             return@forEach
-        }
+        var str = it.split("->")
+        myMap[str[0].trim()] = str[1].trim()
     }
-    val xSize = xList.maxOrNull()?:0
-    val ySize = yList.maxOrNull()?:0
-    val myMatrix = Matrix(xSize+1, ySize+1)
-    for (i in xList.indices)
-        myMatrix.setDot(xList[i], yList[i])
-    return myMatrix
+    return Polymer(myMap)
 }

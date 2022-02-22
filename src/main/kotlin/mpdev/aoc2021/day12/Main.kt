@@ -10,7 +10,7 @@ fun calculateResultPart1(myNetworkMap: Network): Int {
     return myNetworkMap.allPaths.size
 }
 
-/** calculate part */
+/** calculate part 2 */
 fun calculateResultPart2(myNetworkMap: Network): Int {
     val listOfPaths: MutableList<List<String>> = mutableListOf()
     val minorNodesMap = myNetworkMap.netMap.map.filter { it.value.minor && it.key != "start" && it.key != "end" }
