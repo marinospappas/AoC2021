@@ -34,6 +34,18 @@ class TestDay15 {
 
     @Test
     @Order(3)
+    fun `Test Min Cost Path - DijKstra Algorithm - path going backwards`() {
+        val myNetwork = getInput(arrayOf("src/test/resources/day15/input2.txt"))
+        println(myNetwork.printSquareGrid().replace("", " "))
+        val minCost = myNetwork.findMinCostforAllPaths()
+        val minPath = myNetwork.getMinCostPath()
+        println("min cost path: $minPath")
+        println(myNetwork.minCostPathToString(minPath))
+        assertEquals(8, minCost, "min cost failed")
+    }
+
+    @Test
+    @Order(4)
     fun `Test Build Network - Part 2`() {
         part1_2 = 2
         val myNetwork = getInput(arrayOf("src/test/resources/day15/input.txt"))
@@ -45,7 +57,7 @@ class TestDay15 {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     fun `Test Min Cost Path - Dijkstra Algorithm - Part 2`() {
         part1_2 = 2
         val myNetwork = getInput(arrayOf("src/test/resources/day15/input.txt"))
