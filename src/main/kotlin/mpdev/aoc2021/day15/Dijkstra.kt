@@ -2,36 +2,44 @@ package mpdev.aoc2021.day15
 
 object Dijkstra {
 
-    fun runIt(graph: List<Node>, start: Int): Int {
+    /**
+     * the Dijkstra algorithm implementation
+     * calculates the minimum costs for all the paths starting from start to all nodes in the graph
+     * returns minimum cost for the path start to end
+     */
+    fun runIt(graph: List<Node>, start: Int, end: Int): Int {
 
-        //val graph = network.grid
-        val count = graph.size
-        val visitedVertex = BooleanArray(count)
-        val dijkCost = IntArray(count)
-        for (i in 0 until count) {
-            visitedVertex[i] = false
-            dijkCost[i] = Int.MAX_VALUE
-        }
-        // Cost of self loop is zero
+        // setup visited flags and minimum total costs to node arrays
+        val visitedNode = BooleanArray(graph.size) { false }
+        val dijkCost = IntArray(graph.size) { Int.MAX_VALUE }
+
+        // cost of being at start is zero
         dijkCost[start] = 0
-        for (i in 0 until count) {
-            // Update the cost between neighbouring vertex and source vertex
-            val u = findMinCost(dijkCost, visitedVertex)
-            visitedVertex[u] = true
 
-            // Update all the neighbouring vertex costs
-            val conxId = graph[u].connectedNodes
-            val costToConx = graph[u].costToConnections
-            for (v in conxId.indices) {
-                if (!visitedVertex[conxId[v]] && dijkCost[u] + costToConx[v] < dijkCost[conxId[v]]) {
-                    dijkCost[conxId[v]] = dijkCost[u] + costToConx[v]
+        for (i in 1 .. graph.size) {
+            //if (nodeCount++ % 1000 == 0) println("processing node $nodeCount")
+            // Find the node with the lowest cost from the nodes that have not been visited yet
+            val lowestCostNodeId = findMinCost(dijkCost, visitedNode)
+            visitedNode[ lowestCostNodeId ] = true
+
+            // if (lowestCostNodeId == end)     **** terminate the loop here if only interested in the
+            //    return dijkCost[end]          **** lowest path from start to end and not from start to all nodes
+
+            // Update all the neighbouring nodes costs
+            val conxId = graph[ lowestCostNodeId ].connectedNodes
+            val costToConx = graph[ lowestCostNodeId ].costToConnections
+            for (indx in conxId.indices) {
+                val tempCost = dijkCost[ lowestCostNodeId ] + costToConx[indx]
+                if (!visitedNode[conxId[indx]] && tempCost < dijkCost[conxId[indx]]) {
+                    dijkCost[conxId[indx]] = tempCost
+                    graph[ conxId[indx] ].lastUpdatedBy = lowestCostNodeId
                 }
             }
         }
-        return dijkCost.last()
+        return dijkCost[end]
     }
 
-    // Finding the vertex of minimum distance
+    /** find the node of minimum cost that has not been visited yet */
     private fun findMinCost(cost: IntArray, visitedVertex: BooleanArray): Int {
         var minCost = Int.MAX_VALUE
         var minCostVertex = -1

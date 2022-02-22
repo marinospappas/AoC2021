@@ -26,6 +26,9 @@ class TestDay15 {
     fun `Test Min Cost Path - DijKstra Algorithm`() {
         val myNetwork = getInput(arrayOf("src/test/resources/day15/input.txt"))
         val minCost = myNetwork.findMinCostforAllPaths()
+        val minPath = myNetwork.getMinCostPath()
+        println("min cost path: $minPath")
+        println(myNetwork.minCostPathToString(minPath))
         assertEquals(40, minCost, "min cost failed")
     }
 
@@ -47,6 +50,9 @@ class TestDay15 {
         part1_2 = 2
         val myNetwork = getInput(arrayOf("src/test/resources/day15/input.txt"))
         val minCost = myNetwork.findMinCostforAllPaths()
+        val minPath = myNetwork.getMinCostPath()
+        println("min cost path: $minPath")
+        println(myNetwork.minCostPathToString(minPath))
         assertEquals(315, minCost, "min cost failed")
     }
 

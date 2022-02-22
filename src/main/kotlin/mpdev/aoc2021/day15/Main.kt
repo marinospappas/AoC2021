@@ -21,7 +21,6 @@ fun main(args: Array<String>) {
     println("$AOC - $DAY, $PUZZLE, Part $part1_2 - $AUTHOR - $DATE")
 
     inputData = getInput(args)
-
     println("grid size: $xSize x $ySize, number of nodes ${inputData.grid.size}")
     val t1 = System.currentTimeMillis()
 
