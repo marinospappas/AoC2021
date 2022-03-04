@@ -57,9 +57,8 @@ class SevenSegmentDisplay(input: List<String> = listOf()) {
     }
 
     /**
-     * find all the mappings that have length = len
-     * "subtract" each one of them from each of the mappings that have length > len
-     * and add the result of each "subtraction" as a new mapping
+     * reduce the mappings by removing segments that are common to both sides of a mapping across any two mappings
+     * try all combinations of each mapping against all mappings
      * It's the same concept as in maths:
      *      5 + x + y = a + b + c and
      *          x + y = a + b
@@ -69,13 +68,15 @@ class SevenSegmentDisplay(input: List<String> = listOf()) {
      *      "bg"  -> "DA"
      *       gives us "a" maps to "C"
      */
-    private fun subtractMappings() {
+    private fun reduceMappings() {
         displayMappings.toMap().forEach { (k, v) ->
             displayMappings.toMap().forEach { (t, u) ->
-                val newKey = t.removeChars(k)
-                val newValue = u.removeChars(v)
-                if (newKey.isNotEmpty() && newValue.isNotEmpty()) {
-                    displayMappings[newKey] = newValue
+                if (t != k) {
+                    val newKey = t.removeChars(k)
+                    val newValue = u.removeChars(v)
+                    if (newKey.isNotEmpty() && newValue.isNotEmpty()) {
+                        displayMappings[newKey] = newValue
+                    }
                 }
             }
         }
@@ -108,7 +109,7 @@ class SevenSegmentDisplay(input: List<String> = listOf()) {
         // 2. create new mappings by combining two mappings at a time and removing segments common in both sides
         // repeat until we have 6 mappings of length 1 (our solution)
         do {
-            subtractMappings()
+            reduceMappings()
         } while (displayMappings.count { it.key.length == 1 } < 6)
         // 3. add the final 7th mapping
         updateSeventhMapping()
