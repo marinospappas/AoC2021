@@ -1,5 +1,7 @@
 package mpdev.aoc2021.day08
 
+import kotlin.system.measureTimeMillis
+
 class MyInput(var mappings: List<String>, var measurements: List<String>)
 lateinit var input: MyInput
 var part1_2 = 1
@@ -36,17 +38,14 @@ fun main(args: Array<String>) {
     if (part1_2 == 0) abort(USAGE)
     println("$AOC - $DAY, $PUZZLE, Part $part1_2 - $AUTHOR - $DATE")
 
-    val t1 = System.currentTimeMillis()
-
+    val elapsedTime: Long
     if (part1_2 == 1) {
-        result = calculateTotalPart1(args) { l -> l <= 4 || l == 7 }
+        elapsedTime = measureTimeMillis { result = calculateTotalPart1(args) { l -> l <= 4 || l == 7 } }
         println("$RESULT_STRING1: $result")
     }
     else {
-        result = calculateResultPart2(args)
+        elapsedTime = measureTimeMillis { result = calculateResultPart2(args) }
         println("$RESULT_STRING2: $result")
     }
-
-    val t2 = System.currentTimeMillis()
-    exit("$DAY Part $part1_2 - Completed in ${t2-t1} msec")
+    exit("$DAY Part $part1_2 - Completed in $elapsedTime msec")
 }

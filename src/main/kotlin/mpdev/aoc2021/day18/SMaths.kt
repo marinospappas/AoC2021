@@ -104,6 +104,24 @@ class Node(var left: Node? = null, var right: Node? = null, var parent: Node? = 
         return this
     }
 
+    /** reduce */
+    fun reduce(): Node {
+        var reduced: Node = this
+        while (reduced.mustExplode() || reduced.mustSplit()) {
+            while (reduced.mustExplode())
+                reduced = reduced.explode()
+            if (reduced.mustSplit())
+                reduced = reduced.split()
+        }
+        return reduced
+    }
+
+    fun mustExplode(): Boolean = false
+
+    fun mustSplit(): Boolean {
+        return false
+    }
+
     /** explode */
     fun explode(): Node {
         myExplode(0, root = this)

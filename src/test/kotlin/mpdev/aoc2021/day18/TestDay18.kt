@@ -213,15 +213,6 @@ class TestDay18 {
     }
 
     @Test
-    @Order(10)
-    fun `Test Full Example 1`() {
-        val myInput = getInput(arrayOf("src/test/resources/day18/input.txt"))
-        val myTree = processInput(myInput)
-        println("result: $myTree")
-        assertEquals("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]", myTree.toString())
-    }
-
-    @Test
     @Order(99)
     @Disabled
     fun `Test Repeated Reduce`() {
