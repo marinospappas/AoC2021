@@ -69,10 +69,9 @@ class SevenSegmentDisplay(input: List<String> = listOf()) {
      *      "bg"  -> "DA"
      *       gives us "a" maps to "C"
      */
-    private fun subtractMappings(len: Int) {
-        displayMappings.filter { it.key.length == len } .forEach { (k, v) ->
-
-            displayMappings.filter { e -> e.key.length > len } .forEach { (t, u) ->
+    private fun subtractMappings() {
+        displayMappings.toMap().forEach { (k, v) ->
+            displayMappings.toMap().forEach { (t, u) ->
                 val newKey = t.removeChars(k)
                 val newValue = u.removeChars(v)
                 if (newKey.isNotEmpty() && newValue.isNotEmpty()) {
@@ -109,8 +108,7 @@ class SevenSegmentDisplay(input: List<String> = listOf()) {
         // 2. create new mappings by combining two mappings at a time and removing segments common in both sides
         // repeat until we have 6 mappings of length 1 (our solution)
         do {
-            subtractMappings(1)
-            subtractMappings(2)
+            subtractMappings()
         } while (displayMappings.count { it.key.length == 1 } < 6)
         // 3. add the final 7th mapping
         updateSeventhMapping()
@@ -121,7 +119,7 @@ class SevenSegmentDisplay(input: List<String> = listOf()) {
     // functions that deal with conversions from segments to digits
 
     /** get the binary flag for a segment */
-    fun getSegmentFlag(c: Char) = power(2, 'G' - c.uppercaseChar())
+    fun getSegmentHexValue(c: Char) = power(2, 'G' - c.uppercaseChar())
 
     /** return the number for a specific segment combination (int) */
     fun convertSegmentsToNumber(seg: Int) = num2seg.indexOf(seg)
@@ -129,7 +127,7 @@ class SevenSegmentDisplay(input: List<String> = listOf()) {
     /** return the number for a specific segment combination (string) */
     fun convertSegmentsToNumber(seg: String): Int {
         var numSeg = 0
-        seg.forEach { c -> numSeg += getSegmentFlag(c) }
+        seg.forEach { c -> numSeg += getSegmentHexValue(c) }
         return convertSegmentsToNumber(numSeg)
     }
 
