@@ -57,7 +57,7 @@ class SevenSegmentDisplay(input: List<String> = listOf()) {
     }
 
     /**
-     * reduce the mappings by removing segments that are common to both sides of a mapping across any two mappings
+     * reduce the mappings by removing segments from both sides that are common across any two mappings
      * try all combinations of each mapping against all mappings
      * It's the same concept as in maths:
      *      5 + x + y = a + b + c and
