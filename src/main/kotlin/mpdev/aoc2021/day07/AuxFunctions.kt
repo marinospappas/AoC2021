@@ -7,7 +7,7 @@ import kotlin.system.exitProcess
 
 const val AOC = "AoC 2021"
 const val AUTHOR = "Marinos Pappas"
-const val DATE = "14.02.21"
+const val DATE = "14.02.22"
 const val DAY = "Day7"
 const val PUZZLE = "The Treachery of ****"
 val RESULT_STRING = "Minimum cost"
