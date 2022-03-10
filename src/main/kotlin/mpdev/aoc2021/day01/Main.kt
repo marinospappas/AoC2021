@@ -6,7 +6,7 @@ import kotlin.system.exitProcess
 
 const val AOC = "AoC 2021"
 const val AUTHOR = "Marinos Pappas"
-const val DATE = "11.02.21"
+const val DATE = "11.02.22"
 const val DAY = "Day1"
 const val PUZZLE = "Sonar Sweep"
 const val USAGE = "usage: Main -part1|-part2 Input_File"

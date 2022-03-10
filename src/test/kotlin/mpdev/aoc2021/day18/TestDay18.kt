@@ -1,7 +1,5 @@
 package mpdev.aoc2021.day18
 
-import mpdev.aoc2021.day01.processInputPart1
-import mpdev.aoc2021.day16.processInput
 import org.junit.jupiter.api.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

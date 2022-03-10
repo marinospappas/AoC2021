@@ -1,17 +1,24 @@
-package mpdev.aoc2021.day18
+package mpdev.aoc2021.day21
 
+import java.io.BufferedReader
 import java.io.File
-import java.util.BitSet
+import java.io.FileReader
+import java.math.BigInteger
 import kotlin.system.exitProcess
 
 const val AOC = "AoC 2021"
 const val AUTHOR = "Marinos Pappas"
-const val DATE = "28.02.22"
-const val DAY = "Day18"
-const val PUZZLE = "SnailFish"
-val RESULT_STRING1 = "Tree Magnitude"
-val RESULT_STRING2 = ""
-const val USAGE = "usage: MainKt -part1|-part2 Input_File"
+const val DATE = "08.03.22"
+const val DAY = "Day21"
+const val PUZZLE = "Roll the Dice"
+val RESULT_STRING1 = "Least Score * number of rolls"
+val RESULT_STRING2 = "Winner's number of Universes "
+const val USAGE = "usage: Main -part1|-part2 Input_File"
+
+/** own power fun */
+fun power(n: Long, exp: Int): Int {
+    return BigInteger.valueOf(n).pow(exp).toInt()
+}
 
 /** exit program */
 fun exit(msg: String) {
@@ -49,8 +56,7 @@ fun getFilename1(args: Array<String>): String {
 }
 
 /** get puzzle input */
-fun getInput(args: Array<String>): List<String> {
+fun getInput(args: Array<String>) {
     val filename = getFilename1(args)
-    return File(filename).readLines()
+    val inputLines = File(filename).readLines() as MutableList<String>
 }
-

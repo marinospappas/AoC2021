@@ -1,16 +1,18 @@
-package mpdev.aoc2021.day08
+package mpdev.aoc2021.day19
 
+import java.io.BufferedReader
 import java.io.File
+import java.io.FileReader
 import java.math.BigInteger
 import kotlin.system.exitProcess
 
 const val AOC = "AoC 2021"
 const val AUTHOR = "Marinos Pappas"
-const val DATE = "15.02.22"
-const val DAY = "Day8"
-const val PUZZLE = "7 Segment Displays"
-val RESULT_STRING1 = "Total number of 1,4,7,8"
-val RESULT_STRING2 = "Sum of Output Values "
+const val DATE = "08.03.22"
+const val DAY = "Day19"
+const val PUZZLE = "3D Map"
+val RESULT_STRING1 = "Total number of beacons"
+val RESULT_STRING2 = "Max Manhattan distance "
 const val USAGE = "usage: Main -part1|-part2 Input_File"
 
 /** own power fun */
@@ -53,28 +55,29 @@ fun getFilename1(args: Array<String>): String {
     return abort(USAGE).toString()
 }
 
-/** sort the characters in a string */
-fun String.sort() =
-    toCharArray().sorted().joinToString("")
-
-/** process one line of input */
-fun processLine(line: String): MyInput {
-    val mappings = mutableListOf<String>()
-    val measurements = mutableListOf<String>()
-    val inpList = line.split("|")
-    if (inpList.size < 2)
-        abort("bad input line [$line]")
-    val inp1 = inpList[0].trim()
-    val inp2 = inpList[1].trim()
-    measurements.addAll(inp2.split(" ").toList())
-    val mapppingsSorted = mutableListOf<String>()
-    inp1.split(" ").forEach { s -> mapppingsSorted.add(s.sort()) }
-    mappings.addAll(mapppingsSorted)
-    return MyInput(mappings, measurements)
+/** get puzzle input */
+fun getInput(args: Array<String>): List<Scanner> {
+    val filename = getFilename1(args)
+    val myScanners = mutableListOf<Scanner>()
+    val myInput = BufferedReader(FileReader(filename))
+    var line: String?
+    while (myInput.readLine().also { line = it } != null) {
+        if (line?.contains("scanner")!!)
+            processScanner(myInput, myScanners)
+    }
+    return myScanners
 }
 
-/** get puzzle input */
-fun getInput(args: Array<String>): File {
-    val filename = getFilename1(args)
-    return File(filename)
+var scannerId = 0
+
+fun processScanner(inp: BufferedReader, scanners: MutableList<Scanner>) {
+    var s: String?
+    val beaconsList = mutableListOf<Beacon>()
+    while (inp.readLine().also { s = it } != null) {
+        if (s == "")
+            break
+        val coords = s?.split(",")!!
+        beaconsList.add(Beacon(Coordinates(coords[0].toInt(), coords[1].toInt(), coords[2].toInt())))
+    }
+    scanners.add(Scanner(beaconsList, scannerId++))
 }
