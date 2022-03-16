@@ -88,10 +88,10 @@ class Scanner(var beacons: MutableList<Beacon>, var id: Int) {
 }
 
 fun List<Scanner>.beaconCount(): Int {
-    val totalBeacons = mutableMapOf<String, Coordinates>()
+    val totalBeacons = mutableMapOf<String, Int>()
     forEach { scanner ->
         scanner.beacons.forEach { beacon ->
-            totalBeacons[beacon.absCoord.toString()] = beacon.absCoord
+            totalBeacons[beacon.absCoord.toString()] = 1
         }
     }
     return totalBeacons.count()

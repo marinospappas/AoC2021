@@ -1,0 +1,113 @@
+x = y = z = 0
+
+SUB program 1
+z = INPUT1 + 15
+
+SUB program 2
+y = w + 12
+z = (INPUT1+15) * 26 + INPUT2 + 12
+
+SUB program 3
+x = 1
+y = INPUT3 + 15
+z = (INPUT1 * 26 + INPUT2) * 26 + INPUT3 + 10467
+
+SUB program 4
+w = INPUT4
+z = INPUT1 * 26 + INPUT2 + 402
+x = if(INPUT3 + 6 != INPUT4) 1 else 0
+y = (INPUT4 + 12) * x
+z = z * (25 * x + 1) + (INPUT4 + 12) * x
+*** MUST HAVE INPUT3 + 6 = INPUT4
+
+SUB program 4
+w = INPUT4
+x = z % 26 - 9
+z = z / 26
+x = if (INPUT4 == z%26-9) 0 else 1
+z = z * (25 * x + 1) + (INPUT4 + 12) * x
+
+
+SUB program 5
+w = INPUT5
+x = z % 26 - 7
+z = z / 26
+x = if(z % 26 - 7 != INPUT5) 1 else 0
+y = (INPUT5 + 15) * x
+z = z * (25 * x + 1) + (INPUT5 + 15) * x
+
+*** MUST HAVE INPUT5 in 6..9
+
+*** MUST HAVE INPUT6 + 1 = INPUT7
+
+SUB 6
+x = z % 26 + 11
+x = if(z % 26 + 11 == INPUT6) 0 else 1   ==> 1
+y = 25 * x + 1   ==> y = 26
+z = z * y  ==> z = z * 26
+y = INPUT6 + 2
+y = y * x  ==> y = y
+z = z + y  ==> z = z * 26 + INPUT6 + 2
+
+SUB 7
+x = z % 26 - 1
+z = z / 26
+x = if(z % 26 - 1 == INPUT7) 0 else 1
+y = (INPUT7 + 11) * x
+z = z * (25 * x + 1) + (INPUT7 + 11) * x
+
+SUB 8
+w = INPUT8
+x = z % 26 - 16
+z = z / 26
+x = if(z % 26 - 16 == INPUT8) 0 else 1
+z = z * (25 * x + 1) + (INPUT8 + 15) * x
+
+SUB 9
+x = z % 26 + 11
+x = if(z % 26 + 11 == INPUT9) 0 else 1  ==> always 1
+y = 25 * x + 1 ===> 26
+z = z * 26  ===> 0
+z = INPUT9 + 10
+
+SUB 10
+x = z % 26 - 15  ==> INPUT9 - 5 from above
+z = z / 26  ==> 0 from above
+x = if(INPUT9 - 5 == INPUT10) 0 else 1
+z = z * (25 * x + 1) + (INPUT10 + 2) * x  ==> 0 if x == 0
+*** MUST HAVE INPUT9 - 5 = INPUT10
+
+SUB 11
+w = INPUT11
+x = z % 26 + 10   ===> 10 from above
+x = if(10 == INPUT11) 0 else 1  ===> always 1
+y = 25 * x+ 1 ===> 26
+z = INPUT11
+
+SUB 12
+w = INPU12
+x = z % 26 + 12  ===> 12
+x = if(12 == INPUT12) 0 else 1   ===> 1
+y = 25 * x + 1 ==> 26
+y = INPUT12 * x
+z = z * 26 + INPUT12
+
+SUB 13
+z = z / 26
+x = if(z % 26 - 4 == INPUT13) 0 else 1  ===> x = if(INPUT12 - 4 == INPUT13) 0 else 1
+y = (INPUT13 + 15) * x
+z = z * (25 * x + 1) + (INPUT13 + 15) * x
+*** MUST HAVE INPUT12 - 4 = INPUT13
+
+SUB 14
+w = INPUT15
+x = z % 26
+z = z / 26
+x = if(z % 26 == INPUT14) 0 else 1
+y = (INPUT14 + 15) * x
+z = z * (25 * x + 1) + (INPUT14 + 15) * x
+
+
+94399898949959
+
+21176121611511
