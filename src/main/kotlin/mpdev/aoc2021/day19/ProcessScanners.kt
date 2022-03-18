@@ -20,7 +20,7 @@ const val NUMBER_OF_OVERL_BCNS = 12
 fun Scanner.overlaps(sc2: Scanner): Boolean {
     // 1. find all the beacon triplets that have equal distances between any two of them
     // across the two scanners
-    val overlappingPairs = findPairsOfEqDist(this.distanceToBeacon, sc2.distanceToBeacon)
+    val overlappingPairs = findTripletsOfEqDist(this.distanceToBeacon, sc2.distanceToBeacon)
     if (overlappingPairs[0].size >= NUMBER_OF_OVERL_BCNS) {
         // 2. find the actual overlapping pairs where all distances between any 2 beacons are the same
         val overlappingBeacons =
@@ -38,7 +38,7 @@ fun Scanner.overlaps(sc2: Scanner): Boolean {
     return false
 }
 
-fun findPairsOfEqDist(array1: Array<Array<Long>>, array2: Array<Array<Long>>): List<List<Int>> {
+fun findTripletsOfEqDist(array1: Array<Array<Long>>, array2: Array<Array<Long>>): List<List<Int>> {
     val listOfEquals1 = mutableListOf<Int>()
     val listOfEquals2 = mutableListOf<Int>()
     // find two points of equal distance across the two scanners
