@@ -2,13 +2,15 @@ package mpdev.aoc2021.day23
 
 import kotlin.system.measureTimeMillis
 
-lateinit var input: List<String>
+lateinit var input: String
 var part1_2 = 1
-var result = -1L
+var result = -1
 
 /** process each line of input and count entries requested */
-fun calculateTotal(listOfCuboids: List<String>): Long {
-    return 0L
+fun calculateMinEnergy(myInput: String): Int {
+    val state = State(myInput)
+    //return Dijkstra.runIt(myInput, state.endState)
+    return AStar.runIt(myInput, state.endState)
 }
 
 
@@ -21,7 +23,8 @@ fun main(args: Array<String>) {
 
     val elapsedTime: Long
     input = getInput(args)
-    elapsedTime = measureTimeMillis { result = calculateTotal(input) }
+    elapsedTime = measureTimeMillis { result = calculateMinEnergy(input) }
+
     println("$RESULT_STRING1: $result")
 
     exit("$DAY Part $part1_2 - Completed in $elapsedTime msec")
