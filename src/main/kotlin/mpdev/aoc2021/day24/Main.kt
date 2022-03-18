@@ -70,8 +70,10 @@ fun calculateInp_1_8_min(alu: ALU): String {
                             for (i in 1..8)
                                 z[i] = alu.runProgram(startSub(i), endSub(i))
                             //println("z1 $z1 z2 $z2 z3 $z3 z4 $z4 z5 $z5 z6 $z6 z7 $z7 z8 $z8 ")
-                            if (z[7] == z[5] && z[8] == 0)
+                            if (z[7] == z[5] && z[8] == 0) {
+                                print("z1:${z[1]} z2:${z[2]} z3:${z[3]} z4:${z[4]} z5:${z[5]} z6:${z[6]} z7:${z[7]} z8:${z[8]} ")
                                 break@mainloop
+                            }
                         }
     return alu.inputValues
 }
@@ -85,9 +87,10 @@ fun calculateInp_9_14_min(alu: ALU, prevResult: String): String {
                     val z = Array(15) {0}
                     for (i in 9..14)
                         z[i] = alu.runProgram(startSub(i), endSub(i))
-                    //println("z1 $z1 z2 $z2 z3 $z3 z4 $z4 z5 $z5 z6 $z6 z7 $z7 z8 $z8 ")
-                    if (z[14] == 0)
+                    if (z[14] == 0) {
+                        println("z9:${z[9]} z10:${z[10]} z11:${z[11]} z12:${z[12]} z13:${z[13]} z14:${z[14]}")
                         break@mainloop
+                    }
                 }
     return alu.inputValues
 }
