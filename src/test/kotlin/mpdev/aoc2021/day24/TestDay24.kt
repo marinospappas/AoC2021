@@ -1,6 +1,9 @@
 package mpdev.aoc2021.day24
 
 import org.junit.jupiter.api.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.InputStreamReader
 import kotlin.system.measureNanoTime
 import kotlin.test.assertEquals
 
@@ -333,7 +336,7 @@ class TestDay24 {
                 z = alu.runProgram()
         }
         println("output (z) = $z")
-        println("interpreter execution time = ${elapsed/numberOfTimes/1000} micro-sec")
+        println("interpreter execution time = ${elapsed/numberOfTimes/1000} micro-sec per run")
     }
 
     @Test
@@ -350,7 +353,28 @@ class TestDay24 {
                 z = alu.runProgram()
         }
         println("output (z) = $z")
-        println("compiler execution time = ${elapsed/numberOfTimes/1000} micro-sec")
+        println("compiler execution time = ${elapsed/numberOfTimes/1000} micro-sec per run")
+    }
+
+    @Test
+    @Order(9)
+    fun `Perf Test Assembler`() {
+        val inpProg = getInput(arrayOf("src/test/resources/day24/input2.txt"))
+        val alu = ALUAssembler(inpProg, "")
+        val numberOfTimes = 10000000
+        val elapsed = measureNanoTime {
+            alu.perfTest(numberOfTimes)
+        }
+        val elapsedMicro = elapsed.toDouble() / numberOfTimes / 1000.0
+        println("assembler execution time = ${"%.3f".format(elapsedMicro)} mico-sec per run")
+    }
+
+    @Test
+    @Order(9)
+    fun Assembler() {
+        val inpProg = getInput(arrayOf("src/test/resources/day24/input2.txt"))
+        val alu = ALUAssembler(inpProg, "")
+        alu.asm()
     }
 
     @Test

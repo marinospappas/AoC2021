@@ -4,23 +4,29 @@ import kotlin.system.measureTimeMillis
 
 lateinit var input: List<String>
 var part1_2 = 1
-var result = -1L
+var mode = 1
+var result = ""
 
-fun calculateResultPart1(input: List<String>): Long {
-    val alu = ALUCompiler(input)
+fun calculateResultPart1(input: List<String>): String {
+    var alu: ALU = ALUCompiler(input)
+    when (mode) {
+        1-> alu = ALUInterpreter(input)
+        2-> alu = ALUCompiler(input)
+        3-> return ALUAssembler(input).execPrgm()
+    }
     alu.compileProgram()
     val res1 = calculateInp_1_8_max(alu)
     val res2 = calculateInp_9_14_max(alu, res1)
-    return res2.toLong()
+    return res2
 }
 
 fun calculateInp_1_8_max(alu: ALU): String {
     mainloop@for (i1 in 9 downTo 1)
         for (i2 in 9 downTo 1)
             for (i3_4 in listOf(39, 28, 17))
-                for (i5 in 1..9)
+                for (i5 in 9 downTo 1)
                     for (i6_7 in listOf(89,78,67,56,45,34,23,12))
-                        for (i8 in 1..9) {
+                        for (i8 in 9 downTo 1) {
                             alu.inputValues = "$i1$i2$i3_4$i5$i6_7$i8"
                             val z = Array(9) {0}
                             for (i in 1..8)
@@ -50,12 +56,12 @@ fun calculateInp_9_14_max(alu: ALU, prevResult: String): String {
     return alu.inputValues
 }
 
-fun calculateResultPart2(input: List<String>): Long {
+fun calculateResultPart2(input: List<String>): String {
     val alu = ALUCompiler(input)
     alu.compileProgram()
     val res1 = calculateInp_1_8_min(alu)
     val res2 = calculateInp_9_14_min(alu, res1)
-    return res2.toLong()
+    return res2
 }
 
 fun calculateInp_1_8_min(alu: ALU): String {
@@ -69,7 +75,6 @@ fun calculateInp_1_8_min(alu: ALU): String {
                             val z = Array(9) {0}
                             for (i in 1..8)
                                 z[i] = alu.runProgram(startSub(i), endSub(i))
-                            //println("z1 $z1 z2 $z2 z3 $z3 z4 $z4 z5 $z5 z6 $z6 z7 $z7 z8 $z8 ")
                             if (z[7] == z[5] && z[8] == 0) {
                                 print("z1:${z[1]} z2:${z[2]} z3:${z[3]} z4:${z[4]} z5:${z[5]} z6:${z[6]} z7:${z[7]} z8:${z[8]} ")
                                 break@mainloop
@@ -101,7 +106,15 @@ fun main(args: Array<String>) {
 
     part1_2 = getPart1or2(args)
     if (part1_2 == 0) abort(USAGE)
+    mode = getExecMode(args)
+
     println("$AOC - $DAY, $PUZZLE, Part $part1_2 - $AUTHOR - $DATE")
+    print("Running ")
+    when (mode) {
+        1-> println(" Interpreter")
+        2-> println(" Compiler")
+        3-> println(" Assembler")
+    }
 
     val elapsedTime: Long
     input = getInput(args)

@@ -41,6 +41,18 @@ fun getPart1or2(args: Array<String>): Int {
     return 0
 }
 
+/** get interpreter / compiler / assembler mode from args */
+fun getExecMode(args: Array<String>): Int {
+    for (i in args.indices)
+        if (args[i].startsWith("-"))
+            when (args[i]) {
+                "-int" -> return 1
+                "-comp" -> return 2
+                "-asm" -> return 3
+            }
+    return 0
+}
+
 /** get input filename from args */
 fun getFilename1(args: Array<String>): String {
     for (i in args.indices) {
