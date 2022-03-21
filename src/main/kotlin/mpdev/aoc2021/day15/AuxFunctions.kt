@@ -48,26 +48,27 @@ fun getFilename1(args: Array<String>): String {
 }
 
 /** build network from input matrix */
-fun buildNetwork(input: List<String>): Network {
-    val myNetwork = Network()
+fun buildNetwork(input: List<String>): Graph {
+    val myNetwork = Graph()
     for (y in input.indices) {
         for (x in input[y].indices) {
             val cost = input[y][x].digitToInt()
-            myNetwork.addNode("($x,$y)", cost, myNetwork.getConnectedNodes(x, y), listOf(), myNetwork.getNodeIdFromCoords(x, y))
+            myNetwork.addNode("($x,$y)", cost, Graph.getNodeIdFromCoords(x, y))
+            Graph.getConnectedNodes(x, y).forEach { myNetwork.grid.last().nextNodes.add(it) }
         }
     }
     // updated costs to connections
-    myNetwork.grid.forEach { it.costToConnections = myNetwork.getCostsToConnections(it.thisId) }
+    //myNetwork.updateCostsToConnections()
     if (myNetwork.grid.size != xSize * ySize)       // check size of grid
         abort("error in processing input - grid size was ${myNetwork.grid.size}")
     for (i in myNetwork.grid.indices)
-        if (myNetwork.grid[i].thisId != i)          // check generated ids
-            abort("error in grid Ids - node $i has wrong id ${myNetwork.grid[i].thisId}")
+        if (myNetwork.grid[i].id != i)          // check generated ids
+            abort("error in grid Ids - node $i has wrong id ${myNetwork.grid[i].id}")
     return myNetwork
 }
 
 /** get puzzle input */
-fun getInput(args: Array<String>): Network {
+fun getInput(args: Array<String>): Graph {
     val filename = getFilename1(args)
     var myInput: MutableList<String> = mutableListOf()
     var lineNumber = 0

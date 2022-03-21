@@ -1,14 +1,14 @@
 package mpdev.aoc2021.day15
 
-lateinit var inputData: Network
+lateinit var inputData: Graph
 var xSize = 0
 var ySize = 0
 var part1_2 = 1
 var result = -1
 
 /** calculate part 1 */
-fun calculateResultPart1(myNetworkMap: Network): Int {
-    return myNetworkMap.findMinCostforAllPaths()
+fun calculateResultPart1(myNetworkMap: Graph): Int {
+    return myNetworkMap.getMinCostPath().minCost
 }
 
 /** calculate part 2 */
