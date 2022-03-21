@@ -1,6 +1,7 @@
 package mpdev.aoc2021.day23
 
 import org.junit.jupiter.api.*
+import kotlin.system.measureTimeMillis
 import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -188,7 +189,7 @@ class TestDay23 {
 
     @Test
     @Order(4)
-    fun `Test State ID`() {
+    fun `Test AStar Algorithm`() {
         val myInput = listOf(
             "#12345678901#",
             "1...........#",
@@ -201,11 +202,44 @@ class TestDay23 {
         part1_2 = 2
         val stateStr1 = processInput(myInput)
         println(stateStr1)
-        val state1 = State(stateStr1)
-        println(state1)
-        println(Dijkstra.runIt(stateStr1, state1.endState))
-        assertEquals(1,1)
+        val graph1 = Graph(stateStr1)
+        println(graph1)
+        val myResult: MinCostPath<String>
+        val elapsed = measureTimeMillis { myResult = AStar<String>().runIt(graph1, Graph(Graph.endState)) }
+        println("A* elapsed time: $elapsed msec number of iterations: ${myResult.numberOfIterations}")
+        println("min cost path: ${myResult.path}")
+        var i = 0
+        myResult.path.forEach { println("\nstep ${i++}\n${Graph(it)}") }
 
+        println("min cost: ${myResult.minCost}")
+        assertEquals(47509,myResult.minCost)
+    }
+
+    @Test
+    @Order(5)
+    fun `Test Dijkstra Algorithm`() {
+        val myInput = listOf(
+            "#12345678901#",
+            "1...........#",
+            "2##B#A#A#D###",
+            "3 #D#C#B#A#  ",
+            "4 #D#B#A#C#  ",
+            "5 #D#C#B#C#  ",
+            "  #########  "
+        )
+        part1_2 = 2
+        val stateStr1 = processInput(myInput)
+        println(stateStr1)
+        val graph1 = Graph(stateStr1)
+        println(graph1)
+        val myResult: MinCostPath<String>
+        val elapsed = measureTimeMillis { myResult = Dijkstra<String>().runIt(graph1, Graph(Graph.endState)) }
+        println("Dijkstra elapsed time: $elapsed msec number of iterations: ${myResult.numberOfIterations}")
+        println("min cost path: ${myResult.path}")
+        var i = 0
+        myResult.path.forEach { println("\nstep ${i++}\n${Graph(it)}") }
+        println("min cost: ${myResult.minCost}")
+        assertEquals(47509,myResult.minCost)
     }
 }
 

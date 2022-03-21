@@ -8,11 +8,16 @@ var result = -1
 
 /** process each line of input and count entries requested */
 fun calculateMinEnergy(myInput: String): Int {
-    val state = State(myInput)
-    //return Dijkstra.runIt(myInput, state.endState)
-    return AStar.runIt(myInput, state.endState)
+    val algorithm: String
+    val graph = Graph(myInput)
+    //val minPath =  Dijkstra<String>().runIt(graph, Graph(Graph.endState)); algorithm = "Dijkstra"
+    val minPath = AStar<String>().runIt(graph, Graph(Graph.endState)); algorithm = "A*"
+    println("min cost path: ${minPath.path}")
+    var i = 0
+    minPath.path.forEach { println("\nstep ${i++}\n${Graph(it)}") }
+    println("$algorithm number of iterations: ${minPath.numberOfIterations}")
+    return minPath.minCost
 }
-
 
 /** main */
 fun main(args: Array<String>) {

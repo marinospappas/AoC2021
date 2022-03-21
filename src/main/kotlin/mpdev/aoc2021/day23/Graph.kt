@@ -1,29 +1,29 @@
 package mpdev.aoc2021.day23
 
+class Node(override var node: GraphNode<String>, override var costFromPrev: Int): NodeCost<String>
 
-class State(var stateId: String) {
+class Graph(override var id: String): GraphNode<String> {
 
-   val endState = if (part1_2 ==1)
-       "...........AABBCCDD"
-   else
-       "...........AAAABBBBCCCCDDDD"
-
-    val STATE_LEN = 19 + 8 * (part1_2-1)
-    //val stateId = stateIdU.toStateString()
-
-    val costMap = mapOf('A' to 1, 'B' to 10, 'C' to 100, 'D' to 1000)
-
-    val HALL_LEN = 11
-    val ROOM_LEN = part1_2 * 2
-    val hall = stateId.substring(0, HALL_LEN).toCharArray()
-    val rooms = Array(4) {
-        val roomStart = HALL_LEN + it * ROOM_LEN
-        Room('A'+it, it, stateId.substring(roomStart, roomStart + ROOM_LEN).toCharArray())
+    companion object {
+        val endState = if (part1_2 == 1)
+            "...........AABBCCDD"
+        else
+            "...........AAAABBBBCCCCDDDD"
+        val STATE_LEN = 19 + 8 * (part1_2-1)
+        val costMap = mapOf('A' to 1, 'B' to 10, 'C' to 100, 'D' to 1000)
+        val HALL_LEN = 11
+        val ROOM_LEN = part1_2 * 2
+        val validHallPsns = listOf(0,1,3,5,7,9,10)
+        private fun manhDist(x1: Int, y1: Int, x2: Int, y2: Int) = StrictMath.abs(x1 - x2) + StrictMath.abs(y1 - y2)
     }
 
-    val validHallPsns = listOf(0,1,3,5,7,9,10)
+    val hall = id.substring(0, HALL_LEN).toCharArray()
+    val rooms = Array(4) {
+        val roomStart = HALL_LEN + it * ROOM_LEN
+        Room('A'+it, it, id.substring(roomStart, roomStart + ROOM_LEN).toCharArray())
+    }
 
-    fun nextStates(): List<Node> {
+    override fun getConnectedNodes(): List<Node> {
         val myStatesList = mutableListOf<Node>()
         nextMovesRoom2Hall().forEach {
             val fromY = it[0]; val fromX = it[1]; val toY = it[2]; val toX = it[3]
@@ -36,9 +36,9 @@ class State(var stateId: String) {
             myHall[toX] = occupant
             myRooms[roomIndx].occupants[fromY-1] = empty
             val costThisMovement = manhDist(fromX, fromY, toX, toY) * costMap[ occupant ]!!
-            var newState = String(myHall)
-            for (i in 0..3) newState += String(myRooms[i].occupants)
-            myStatesList.add(Node(newState, costThisMovement))
+            var newStateId = String(myHall)
+            for (i in 0..3) newStateId += String(myRooms[i].occupants)
+            myStatesList.add(Node(Graph(newStateId), costThisMovement))
         }
         nextMovesHall2Room().forEach {
             val fromY = it[0]; val fromX = it[1]; val toY = it[2]; val toX = it[3]
@@ -51,9 +51,9 @@ class State(var stateId: String) {
             myRooms[roomIndx].occupants[toY-1]= occupant
             myHall[fromX] = empty
             val costThisMovement = manhDist(fromX, fromY, toX, toY) * costMap[ occupant ]!!
-            var newState = String(myHall)
-            for (i in 0..3) newState += String(myRooms[i].occupants)
-            myStatesList.add(Node(newState, costThisMovement))
+            var newStateId = String(myHall)
+            for (i in 0..3) newStateId += String(myRooms[i].occupants)
+            myStatesList.add(Node(Graph(newStateId), costThisMovement))
         }
         return myStatesList
     }
@@ -104,8 +104,6 @@ class State(var stateId: String) {
 
         override fun toString() = "$roomId ($indx) ${String(occupants)}"
 
-        fun hasOnlyValidOccupants() = occupants.all { it == roomId }
-
         fun isEmptyOrHasOnlyValidOccupants() = occupants.all { it == empty || it == roomId }
 
         fun topOccupiedLevel(): Int {
@@ -114,8 +112,6 @@ class State(var stateId: String) {
             return occupants.size
         }
     }
-
-    private fun manhDist(x1: Int, y1: Int, x2: Int, y2: Int) = StrictMath.abs(x1 - x2) + StrictMath.abs(y1 - y2)
 
     override fun toString(): String {
         var s = "# # # # # # # # # # # # #\n"
@@ -137,16 +133,17 @@ class State(var stateId: String) {
      * to the target as if there are no obstacles
      * used in the A* algorithm
      */
-    fun heuristic(): Int {
+    override fun heuristic(): Int {
         setTopFree()
         val cost1 = moveRoom2Room()
         val cost2 = moveHall2Room()
+        //return 0
         return cost1 + cost2
     }
 
-    val topFree = Array(4) {ROOM_LEN - 1}
+    private val topFree = Array(4) {ROOM_LEN - 1}
 
-    fun setTopFree() {
+    private fun setTopFree() {
         for (i in 0..3) {
             for (j in ROOM_LEN-1 downTo 0) {
                 if (rooms[i].occupants[j] != rooms[i].roomId) {
@@ -156,7 +153,7 @@ class State(var stateId: String) {
             }
         }
     }
-    fun moveHall2Room(): Int {
+    private fun moveHall2Room(): Int {
         var cost = 0
         for (i in 0 .. HALL_LEN-1) {
             if (hall[i] == empty) continue
@@ -172,11 +169,22 @@ class State(var stateId: String) {
         return cost
     }
 
-    fun moveRoom2Room(): Int {
-        return 0
+    private fun moveRoom2Room(): Int {
+        var cost = 0
+        for (roomIndx in 0 .. 3) {
+            for (j in ROOM_LEN-1 downTo 0) {
+                if (rooms[roomIndx].occupants[j] == empty) break
+                if (rooms[roomIndx].occupants[j] == rooms[roomIndx].roomId) continue
+                val obj = rooms[roomIndx].occupants[j]
+                val fromX = roomIndx
+                val fromY = j+1
+                val newRoomIndx = 3 - ('D' - obj)
+                val toX = (newRoomIndx + 1) * 2
+                val toY = topFree[newRoomIndx] + 1
+                cost += manhDist(fromX, fromY, toX, toY) * costMap[obj]!!
+                ++topFree[newRoomIndx]
+            }
+        }
+        return cost
     }
-}
-
-class Node(val stateId: String, var cost: Int, var updatedBy: String = "", var totalCost: Int = 0): Comparable<Node> {
-    override fun compareTo(other: Node) = cost.compareTo(other.cost)
 }
